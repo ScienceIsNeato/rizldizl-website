@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RizlDizl — your keyboard lights up when you type</title>
+  <meta name="description" content="Reactive RGB lighting for Razer keyboards on macOS. Type, and the keys light up — ripples, crawlers, letters. Made by one person. The code that reads your keystrokes is open source." />
+  <meta name="keywords" content="RizlDizl, Razer keyboard, macOS RGB, reactive lighting, Razer Synapse Mac, Ornata Chroma, per-key RGB, keyboard effects mac" />
+  <meta name="author" content="William Martin" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#0e0f13" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="RizlDizl — your keyboard lights up when you type" />
+  <meta property="og:description" content="Reactive RGB lighting for Razer keyboards on macOS. The code that reads your keystrokes is open — read it yourself." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.rizldizl.com/" />
+  <meta property="og:site_name" content="RizlDizl" />
+  <meta property="og:image" content="https://www.rizldizl.com/og.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RizlDizl — your keyboard lights up when you type" />
+  <meta name="twitter:description" content="Reactive RGB lighting for Razer keyboards on macOS. The keystroke code is open source." />
+  <meta name="twitter:image" content="https://www.rizldizl.com/og.png" />
+
+  <link rel="canonical" href="https://www.rizldizl.com/" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RizlDizl",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "macOS",
+    "description": "Reactive RGB lighting for Razer keyboards on macOS. Type and the keys light up. The keystroke-handling code is open source.",
+    "url": "https://www.rizldizl.com/",
+    "sameAs": [
+      "https://github.com/ScienceIsNeato/RizlDizlScaryBitz"
+    ],
+    "author": { "@type": "Person", "name": "William Martin" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    :root {
+      --paper: #0e0f13;
+      --ink: #ece9f0;
+      --ink-soft: #b3b0be;
+      --ink-faint: #7c7990;
+      --rule: #24222e;
+      --accent: #c061ff;
+      --accent-2: #3fd6c7;
+      --card: #16151c;
+      --code-bg: #1a1922;
+      --max: 52rem;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+    code, kbd, .mono {
+      font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+    a:hover { border-bottom-color: var(--accent); }
+
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .wordmark {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em;
+      background: linear-gradient(90deg, #ff5d8f, #c061ff 40%, #3fd6c7 75%, #ffd166);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .nav-links { display: flex; gap: 1.25rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; letter-spacing: 0.02em; }
+    .nav-links a { color: var(--ink-faint); }
+    .nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .hero h1 { font-size: 2.3rem; line-height: 1.16; letter-spacing: -0.015em; margin: 0 0 1rem; color: var(--ink); }
+    .hero .sub { font-size: 1.2rem; line-height: 1.6; color: var(--ink-soft); margin: 0 0 1.75rem; max-width: 40rem; }
+
+    .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: ui-monospace, Menlo, monospace; font-size: 0.92rem;
+      padding: 0.6rem 1.05rem; border-radius: 7px; border: 1px solid var(--rule);
+      color: var(--ink); background: var(--card);
+      transition: border-color 120ms ease, transform 80ms ease;
+    }
+    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .btn--primary { background: var(--accent); color: #15101b; border-color: var(--accent); font-weight: 600; }
+    .btn--primary:hover { filter: brightness(1.08); }
+    .chip { font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; color: var(--ink-faint); border: 1px dashed var(--rule); border-radius: 7px; padding: 0.55rem 0.85rem; }
+    .note { font-size: 0.95rem; color: var(--ink-faint); margin-top: 0.9rem; }
+
+    .callouts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+    .callout { background: var(--card); border: 1px solid var(--rule); border-radius: 9px; padding: 1.15rem 1.2rem; }
+    .callout h3 { font-size: 1rem; margin: 0 0 0.4rem; color: var(--ink); font-family: ui-monospace, Menlo, monospace; }
+    .callout p { margin: 0; font-size: 0.96rem; color: var(--ink-soft); line-height: 1.55; }
+    @media (max-width: 36rem) { .callouts { grid-template-columns: 1fr; } }
+
+    section { margin-top: 3.75rem; }
+    h2 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-faint); margin: 0 0 1rem;
+    }
+    section p { color: var(--ink-soft); margin: 0 0 1rem; }
+    section p strong { color: var(--ink); font-weight: 600; }
+
+    .honest { border: 1px solid var(--rule); border-radius: 9px; background: var(--card); padding: 1.4rem 1.5rem; }
+    .honest h2 { margin-top: 0; }
+
+    footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--ink-faint); font-size: 0.9rem; }
+    footer a { color: var(--ink-faint); }
+    footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="wordmark">RizlDizl</span>
+      <nav class="nav-links">
+        <a href="#what">what</a>
+        <a href="#effects">effects</a>
+        <a href="#privacy">privacy</a>
+        <a href="https://github.com/ScienceIsNeato/RizlDizlScaryBitz">code</a>
+      </nav>
+    </div>
+
+    <header class="hero">
+      <h1>Your keyboard lights up when you type.</h1>
+      <p class="sub">
+        RizlDizl is reactive RGB lighting for Razer keyboards on macOS. Hit a key,
+        a ripple spreads out from it. That's the whole idea. Razer's own software is
+        Windows-only, so I built the Mac version I wanted.
+      </p>
+      <div class="cta-row">
+        <span class="chip">macOS app — coming soon</span>
+        <a class="btn" href="https://github.com/ScienceIsNeato/RizlDizlScaryBitz">Read the keystroke code →</a>
+      </div>
+      <p class="note">Not released yet — I'm still polishing. Building it in the open in the meantime.</p>
+    </header>
+
+    <section id="what">
+      <h2>What it is</h2>
+      <p>
+        A little menu-bar app. It watches what you type and paints light across the
+        keys in response — nothing more. It runs quietly, stays out of your way, and
+        does one thing: makes your board react.
+      </p>
+      <p>
+        It works with Razer keyboards (built and tested on the Ornata Chroma V2).
+        Your keyboard keeps working as a keyboard the entire time.
+      </p>
+    </section>
+
+    <section id="effects">
+      <h2>The effects</h2>
+      <div class="callouts">
+        <div class="callout"><h3>Ripple</h3><p>A ring of light spreads out from each key you press, fading as it goes.</p></div>
+        <div class="callout"><h3>Centipede</h3><p>Each press sends a little segmented crawler scurrying across the board.</p></div>
+        <div class="callout"><h3>AlphaStick</h3><p>The letter you typed lights up, in place, right where your finger landed.</p></div>
+        <div class="callout"><h3>AlphaSplat</h3><p>Letters march in from the edge and scroll across like a ticker, in the order you typed them.</p></div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <h2>Yes, it reads your keystrokes</h2>
+      <p>
+        It has to — reacting to your typing is the entire point. So I'm not going to
+        be cagey about it. Here's the deal, and you can check every word of it:
+      </p>
+      <p>
+        Keystrokes are read <strong>only</strong> to figure out which key lit up (and,
+        for the letter effects, which letter). They are <strong>never saved to disk,
+        never buffered, and never sent anywhere.</strong> There is no network code in
+        the part that touches your keys.
+      </p>
+      <p>
+        I can say that, or you can just look. The entire keystroke-handling layer is
+        open source — one small file you can read top to bottom:
+        <a href="https://github.com/ScienceIsNeato/RizlDizlScaryBitz">RizlDizlScaryBitz</a>.
+        If that's not good enough, don't install it. That's a reasonable call.
+      </p>
+    </section>
+
+    <section id="price">
+      <h2>What it costs</h2>
+      <p>
+        Free to download, with a few effects to start. The rest are a couple bucks
+        each, or grab them all in a bundle. No subscription, no account, no login.
+        You can preview every effect on your own keyboard before you pay for one.
+      </p>
+    </section>
+
+    <section class="honest">
+      <h2>The honest version</h2>
+      <p style="margin-bottom:0;">
+        This is a lighting toy, not essential software. One person made it — me —
+        because I have a Razer keyboard and a Mac and wanted the lights to do something
+        fun. It's not affiliated with Razer in any way. If it makes your desk a little
+        nicer and earns me a few bucks for the trouble of putting it out there, that's
+        the whole deal. No grand plan.
+      </p>
+    </section>
+
+    <footer>
+      RizlDizl — made by <a href="https://github.com/ScienceIsNeato">a solo dev</a>.
+      Not affiliated with Razer. ·
+      <a href="https://github.com/ScienceIsNeato/RizlDizlScaryBitz">Open-source keystroke code</a>
+    </footer>
+  </div>
+</body>
+</html>

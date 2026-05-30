@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+.env.local
+.cache/
+dist/
+build/
+
+# machine-local state
+.slopmop/
+.specstory/
+.vscode/
+local/
+.wrangler/

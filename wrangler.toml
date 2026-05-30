@@ -1,0 +1,13 @@
+name = "rizldizl-website"
+compatibility_date = "2026-05-30"
+
+[assets]
+directory = "public"
+
+[[routes]]
+pattern = "rizldizl.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.rizldizl.com"
+custom_domain = true
