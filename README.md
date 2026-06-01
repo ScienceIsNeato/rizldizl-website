@@ -32,6 +32,8 @@ Cloudflare account.
 ## Structure
 
 - `public/index.html` — the landing page
+- `public/styles.css` — the landing page styles
+- `public/assets/` — effect GIFs, posters, and menu-bar screenshots
 - `public/robots.txt`, `public/sitemap.xml`, `public/favicon.svg` — SEO/meta
 - `wrangler.toml` — Cloudflare Worker static-asset + custom-domain config
 - `scripts/deploy_app.sh` — tracked local preview helper

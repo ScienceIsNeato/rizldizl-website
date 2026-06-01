@@ -1,0 +1,7 @@
+{
+  "agent": {
+    "status": "Moved the new landing page over here and made this repo the one that publishes the live site",
+    "direction": "This is now the only place the website deploys from",
+    "last_update": "2026-06-01T00:00:00Z"
+  }
+}
