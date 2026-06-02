@@ -1,7 +1,7 @@
 {
   "agent": {
-    "status": "Moved the new landing page over here and made this repo the one that publishes the live site",
-    "direction": "This is now the only place the website deploys from",
+    "status": "Added a Contact support link in the footer and pointed the effect-request form at the same support inbox",
+    "direction": "Waiting on the support@ address to be set up so the links actually deliver",
     "last_update": "2026-06-01T00:00:00Z"
   }
 }

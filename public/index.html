@@ -260,7 +260,7 @@
           worth more, so this is selfish on my part.
         </p>
       </div>
-      <form class="contact" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form class="contact" id="contactForm">
         <div class="contact-row">
           <label>
             <span>Your email</span>
@@ -302,6 +302,7 @@
   <footer class="foot">
     <span class="brand"><span class="brand-dot"></span> RizlDizl</span>
     <p>A reverse-engineered, copyright-free RGB driver for Razer keyboards on macOS. Built by one person who wanted control of their own lights.</p>
+    <a class="foot-link" href="mailto:support@rizldizl.com?subject=RizlDizl%20support">Contact support</a>
   </footer>
 
   <script>
@@ -354,6 +355,28 @@
       document.getElementById("reelNext").addEventListener("click", function () { show(index + 1, true); });
 
       show(0);
+    })();
+
+    // Effect-request form: build a prefilled email to support and hand off to
+    // the visitor's mail client. No form backend — same routed address as the
+    // footer "Contact support" link.
+    (function () {
+      var form = document.getElementById("contactForm");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = (form.email.value || "").trim();
+        var effect = (form.effect.value || "").trim();
+        var desc = (form.description.value || "").trim();
+        var subject = effect ? "Effect request: " + effect : "Effect request";
+        var lines = [];
+        if (effect) lines.push("Effect: " + effect);
+        lines.push("", desc, "");
+        if (email) lines.push("Reply to: " + email);
+        window.location.href =
+          "mailto:support@rizldizl.com?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(lines.join("\n"));
+      });
     })();
   </script>
 </body>
