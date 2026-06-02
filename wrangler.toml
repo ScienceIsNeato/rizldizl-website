@@ -1,8 +1,15 @@
 name = "rizldizl-website"
+main = "src/worker.js"
 compatibility_date = "2026-05-30"
 
 [assets]
 directory = "public"
+binding = "ASSETS"
+
+[vars]
+BREVO_SENDER_EMAIL = "no-reply@rizldizl.com"
+BREVO_SENDER_NAME = "RizlDizl"
+CONTACT_RECIPIENT = "support@rizldizl.com"
 
 [[routes]]
 pattern = "rizldizl.com"
