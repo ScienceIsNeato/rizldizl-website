@@ -1,7 +1,7 @@
 {
   "agent": {
-    "status": "Added a Contact support link in the footer and pointed the effect-request form at the same support inbox",
-    "direction": "Waiting on the support@ address to be set up so the links actually deliver",
-    "last_update": "2026-06-01T00:00:00Z"
+    "status": "Made the Send-the-idea and Contact-support buttons actually send email instead of opening a mail app — they now go straight to the support inbox, with a confirmation popup on success",
+    "direction": "Need the live email key set up so it sends in production, then commit and deploy",
+    "last_update": "2026-06-02T00:00:00Z"
   }
 }

@@ -275,6 +275,7 @@
           <span>Describe it — the clearer, the faster I can build it</span>
           <textarea name="description" rows="5" required placeholder="What happens when you press a key? Colors, motion, timing, how it fades…"></textarea>
         </label>
+        <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <button class="btn btn-primary" type="submit">Send the idea</button>
         <p class="contact-fine">No promise on wild ones, but if it's describable, it's usually doable.</p>
       </form>
@@ -302,8 +303,35 @@
   <footer class="foot">
     <span class="brand"><span class="brand-dot"></span> RizlDizl</span>
     <p>A reverse-engineered, copyright-free RGB driver for Razer keyboards on macOS. Built by one person who wanted control of their own lights.</p>
-    <a class="foot-link" href="mailto:support@rizldizl.com?subject=RizlDizl%20support">Contact support</a>
+    <button type="button" class="foot-link" id="supportTrigger">Contact support</button>
   </footer>
+
+  <dialog class="modal" id="supportDialog">
+    <form class="contact" id="supportForm" method="dialog">
+      <button type="button" class="modal-close" id="supportClose" aria-label="Close">×</button>
+      <h2>Contact support</h2>
+      <p class="contact-fine">Question, bug, or licensing — drop me a line and I'll get back to you.</p>
+      <label>
+        <span>Your email</span>
+        <input type="email" name="email" required placeholder="you@example.com" />
+      </label>
+      <label>
+        <span>What's up?</span>
+        <textarea name="message" rows="5" required placeholder="Tell me what's going on…"></textarea>
+      </label>
+      <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="sentDialog">
+    <div class="sent-body">
+      <div class="sent-check">✓</div>
+      <h2>Message sent</h2>
+      <p class="contact-fine">Thanks — it landed in my inbox. I'll reply to the email you gave.</p>
+      <button class="btn btn-primary" type="button" id="sentClose">Nice</button>
+    </div>
+  </dialog>
 
   <script>
     (function () {
@@ -357,26 +385,97 @@
       show(0);
     })();
 
-    // Effect-request form: build a prefilled email to support and hand off to
-    // the visitor's mail client. No form backend — same routed address as the
-    // footer "Contact support" link.
+    // Contact + effect-request forms post to the Worker, which relays to Brevo.
+    // Success pops a confirmation dialog; failure shows an alert.
     (function () {
-      var form = document.getElementById("contactForm");
-      if (!form) return;
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var email = (form.email.value || "").trim();
-        var effect = (form.effect.value || "").trim();
-        var desc = (form.description.value || "").trim();
-        var subject = effect ? "Effect request: " + effect : "Effect request";
-        var lines = [];
-        if (effect) lines.push("Effect: " + effect);
-        lines.push("", desc, "");
-        if (email) lines.push("Reply to: " + email);
-        window.location.href =
-          "mailto:support@rizldizl.com?subject=" + encodeURIComponent(subject) +
-          "&body=" + encodeURIComponent(lines.join("\n"));
+      var sentDialog = document.getElementById("sentDialog");
+      var sentClose = document.getElementById("sentClose");
+      if (sentClose && sentDialog) {
+        sentClose.addEventListener("click", function () { sentDialog.close(); });
+      }
+
+      function showSent() {
+        if (sentDialog && typeof sentDialog.showModal === "function") {
+          sentDialog.showModal();
+        } else {
+          alert("Message sent — thanks! I'll reply to the email you gave.");
+        }
+      }
+
+      async function send(payload) {
+        var res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        var data = {};
+        try { data = await res.json(); } catch (e) {}
+        if (!res.ok || !data.ok) {
+          throw new Error((data && data.error) || "Couldn't send your message. Please try again.");
+        }
+      }
+
+      function wire(form, buildPayload, onSuccess) {
+        if (!form) return;
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var btn = form.querySelector('button[type="submit"]');
+          var original = btn ? btn.textContent : "";
+          if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+          try {
+            await send(buildPayload(form));
+            form.reset();
+            if (onSuccess) onSuccess();
+            showSent();
+          } catch (err) {
+            alert(err.message || "Couldn't send your message. Please try again.");
+          } finally {
+            if (btn) { btn.disabled = false; btn.textContent = original; }
+          }
+        });
+      }
+
+      // Effect-request form (field is "description" → API expects "message").
+      wire(document.getElementById("contactForm"), function (form) {
+        return {
+          type: "effect-request",
+          email: (form.email.value || "").trim(),
+          effect: (form.effect.value || "").trim(),
+          message: (form.description.value || "").trim(),
+          company: (form.company.value || "").trim(),
+        };
       });
+
+      // Footer "Contact support" → modal form.
+      var supportDialog = document.getElementById("supportDialog");
+      var supportTrigger = document.getElementById("supportTrigger");
+      var supportClose = document.getElementById("supportClose");
+      if (supportTrigger && supportDialog) {
+        supportTrigger.addEventListener("click", function () {
+          if (typeof supportDialog.showModal === "function") supportDialog.showModal();
+        });
+      }
+      if (supportClose && supportDialog) {
+        supportClose.addEventListener("click", function () { supportDialog.close(); });
+      }
+      if (supportDialog) {
+        // Click outside the form (on the backdrop) closes it.
+        supportDialog.addEventListener("click", function (e) {
+          if (e.target === supportDialog) supportDialog.close();
+        });
+      }
+      wire(
+        document.getElementById("supportForm"),
+        function (form) {
+          return {
+            type: "support",
+            email: (form.email.value || "").trim(),
+            message: (form.message.value || "").trim(),
+            company: (form.company.value || "").trim(),
+          };
+        },
+        function () { if (supportDialog) supportDialog.close(); }
+      );
     })();
   </script>
 </body>
