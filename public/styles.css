@@ -419,6 +419,7 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0.5;
+  pointer-events: none; /* decorative border overlay must not eat clicks on the card (e.g. the buy button) */
 }
 .price-head h2 { font-size: 2rem; }
 .price-head p { color: var(--muted); margin-top: 8px; }
