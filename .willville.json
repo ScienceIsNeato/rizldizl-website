@@ -1,7 +1,7 @@
 {
   "agent": {
-    "status": "Pointed the buy buttons at the real store now that we're live, and fixed a pricing button that wasn't clickable; contact buttons now actually send email",
-    "direction": "Get the email key set up, then merge and deploy so the live site is fully wired for launch",
+    "status": "Rewrote the homepage headline to lead with what the app actually is instead of the backstory",
+    "direction": "Ship it live, then get the contact form's email key set up so those buttons work",
     "last_update": "2026-06-02T00:00:00Z"
   }
 }
