@@ -1,7 +1,7 @@
 {
   "agent": {
-    "status": "Made the Send-the-idea and Contact-support buttons actually send email instead of opening a mail app — they now go straight to the support inbox, with a confirmation popup on success",
-    "direction": "Need the live email key set up so it sends in production, then commit and deploy",
+    "status": "Pointed the buy buttons at the real store now that we're live, and fixed a pricing button that wasn't clickable; contact buttons now actually send email",
+    "direction": "Get the email key set up, then merge and deploy so the live site is fully wired for launch",
     "last_update": "2026-06-02T00:00:00Z"
   }
 }
