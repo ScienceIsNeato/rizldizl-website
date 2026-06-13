@@ -15,7 +15,9 @@ set -euo pipefail
 : "${CF_API_TOKEN:?set CF_API_TOKEN (Account Analytics: Read)}"
 
 run() {
-  curl -s "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/analytics_engine/sql" \
+  # -f so HTTP 4xx/5xx fails the pipeline (with set -e) instead of printing
+  # bogus totals; -S still surfaces the error message.
+  curl -fsS "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/analytics_engine/sql" \
     -H "Authorization: Bearer ${CF_API_TOKEN}" --data "$1"
 }
 

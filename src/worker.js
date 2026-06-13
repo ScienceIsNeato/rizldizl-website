@@ -27,7 +27,12 @@ function handleDownload(request, env) {
       indexes: ["download"],
     });
   }
-  return Response.redirect(DMG_URL, 302);
+  // Explicit 302 with no-store: a cached redirect would let repeat clicks
+  // bypass the Worker and undercount downloads.
+  return new Response(null, {
+    status: 302,
+    headers: { Location: DMG_URL, "cache-control": "no-store" },
+  });
 }
 
 // Cached (5 min) all-time download total from Analytics Engine, for the page.
@@ -200,6 +205,11 @@ export default {
     }
 
     if (url.pathname === "/download") {
+      // Count only real download navigations; HEAD/link-checker probes shouldn't
+      // inflate the total.
+      if (request.method !== "GET") {
+        return new Response("Method not allowed", { status: 405, headers: { Allow: "GET" } });
+      }
       return handleDownload(request, env);
     }
 

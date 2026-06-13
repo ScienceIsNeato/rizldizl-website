@@ -15,7 +15,7 @@ RizlDizl reverse-engineers the Razer lighting protocol so it can paint per-key R
 
 ## Privacy
 - Lighting a key as you press it requires macOS Accessibility and Input Monitoring permission.
-- The keystroke drives one frame of animation and is thrown away — nothing is logged, saved, or sent anywhere; there is no server.
+- The keystroke drives one frame of animation and is thrown away — the app does not upload or log your keystrokes, and talks only to the keyboard on your desk.
 - The keystroke-handling code is open source: https://github.com/ScienceIsNeato/RizlDizlScaryBitz
 
 ## Pricing
