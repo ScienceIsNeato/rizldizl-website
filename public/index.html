@@ -42,6 +42,62 @@
     "offers": { "@type": "Offer", "price": "9.99", "priceCurrency": "USD" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is RizlDizl?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RizlDizl is a small macOS menu bar app that drives per-key RGB on Razer keyboards natively, lighting your keys as you type with reactive effects like Ripple and Centipede. There is no Razer Synapse, no cloud, and no account. It runs on macOS 13 and up, on both Apple Silicon and Intel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which Razer keyboards does RizlDizl work with?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is fully verified on the Razer Ornata Chroma V2. Other Ornata-family boards speak the same protocol and should work: Ornata Chroma, Ornata, Cynosa V2, Huntsman V2, and BlackWidow V3. Backgrounds are free, so there is no risk in trying yours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need Razer Synapse to use RizlDizl?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. RizlDizl talks directly to the keyboard on your desk — no Razer Synapse, no cloud, no account, and no launcher. It is a native macOS alternative for driving Razer per-key RGB."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does RizlDizl ask for Accessibility and Input Monitoring permission?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To light a key the instant you press it, macOS requires Accessibility and Input Monitoring. The keystroke drives a single frame of animation and is then thrown away — nothing is logged, saved, or sent anywhere, because there is no server. The keystroke-handling code is open source so you can audit it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is RizlDizl free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The app and all backgrounds are free. The reactive effects — Ripple, Centipede, Alpha Stick, and Alpha Splat — are 9.99 US dollars per year, and every effect previews for 30 seconds in the app before you pay. It runs on macOS 13 and up, on both Apple Silicon and Intel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does RizlDizl work on Windows?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. RizlDizl is a native macOS app for macOS 13 and later; it does not run on Windows."
+        }
+      }
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -297,6 +353,63 @@
         </ul>
         <a class="btn btn-primary btn-block" href="https://rizldizl.lemonsqueezy.com/checkout/buy/0355a2f9-15c3-4507-99a6-706eeb496e80">Unlock the effects</a>
         <p class="price-fine">Try before you pay — every effect previews for 30 seconds in the app.</p>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="section-head">
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>What is RizlDizl?</h3>
+          <p>
+            RizlDizl is a small macOS menu bar app that drives per-key RGB on Razer keyboards
+            natively, lighting your keys as you type with reactive effects like Ripple and
+            Centipede. There&rsquo;s no Razer Synapse, no cloud, and no account. It runs on
+            macOS 13 and up, on both Apple Silicon and Intel.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Which Razer keyboards does RizlDizl work with?</h3>
+          <p>
+            It&rsquo;s fully verified on the Razer Ornata Chroma V2. Other Ornata-family boards
+            speak the same protocol and should work: Ornata Chroma, Ornata, Cynosa V2, Huntsman V2,
+            and BlackWidow V3. Backgrounds are free, so there&rsquo;s no risk in trying yours.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Do I need Razer Synapse to use RizlDizl?</h3>
+          <p>
+            No. RizlDizl talks directly to the keyboard on your desk &mdash; no Razer Synapse, no
+            cloud, no account, and no launcher. It&rsquo;s a native macOS alternative for driving
+            Razer per-key RGB.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Why does RizlDizl ask for Accessibility and Input Monitoring permission?</h3>
+          <p>
+            To light a key the instant you press it, macOS requires Accessibility and Input
+            Monitoring. The keystroke drives a single frame of animation and is then thrown away
+            &mdash; nothing is logged, saved, or sent anywhere, because there&rsquo;s no server. The
+            keystroke-handling code is open source so you can audit it.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Is RizlDizl free?</h3>
+          <p>
+            The app and all backgrounds are free. The reactive effects &mdash; Ripple, Centipede,
+            Alpha Stick, and Alpha Splat &mdash; are <code>$9.99/year</code>, and every effect
+            previews for 30 seconds in the app before you pay. It runs on macOS 13 and up, on both
+            Apple Silicon and Intel.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Does RizlDizl work on Windows?</h3>
+          <p>
+            No. RizlDizl is a native macOS app for macOS 13 and later; it does not run on Windows.
+          </p>
+        </div>
       </div>
     </section>
   </main>

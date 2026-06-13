@@ -1,0 +1,26 @@
+# RizlDizl
+
+> A small macOS menu bar app that drives per-key RGB on Razer keyboards natively — lighting your keys as you type with reactive effects. No Razer Synapse, no cloud, no account. A native Mac alternative for Razer keyboard lighting.
+
+RizlDizl reverse-engineers the Razer lighting protocol so it can paint per-key RGB directly from a macOS menu bar app. It reacts as you type (ripples, crawlers, letters), separates a static background from a layered effect, and talks only to the keyboard on your desk. Runs on macOS 13+ (Apple Silicon and Intel). The app and all backgrounds are free; the effects are a paid upgrade.
+
+## What it does
+- Per-key reactive RGB on Razer keyboards, native on macOS — no Razer Synapse required.
+- Separate a free static background from a layered effect (Ripple, Centipede, Alpha Stick, Alpha Splat).
+- Lives in the menu bar — no window, no dock icon.
+
+## Keyboard compatibility
+- Verified: Razer Ornata Chroma V2.
+- Should work (same Ornata-family protocol): Ornata Chroma, Ornata, Cynosa V2, Huntsman V2, BlackWidow V3.
+
+## Privacy
+- Lighting a key as you press it requires macOS Accessibility and Input Monitoring permission.
+- The keystroke drives one frame of animation and is thrown away — nothing is logged, saved, or sent anywhere; there is no server.
+- The keystroke-handling code is open source: https://github.com/ScienceIsNeato/RizlDizlScaryBitz
+
+## Pricing
+- App and backgrounds: free.
+- Effects: $9.99/year, with a 30-second in-app preview of every effect before you pay.
+
+## Get it
+- Home and download: https://www.rizldizl.com/
