@@ -63,7 +63,7 @@
       <a href="#permissions">Privacy</a>
       <a href="#requests">Requests</a>
       <a href="#pricing">Pricing</a>
-      <a class="btn btn-primary" href="https://dl.rizldizl.com/RizlDizl.dmg">Download</a>
+      <a class="btn btn-primary" href="/download">Download</a>
     </nav>
   </header>
 
@@ -78,8 +78,9 @@
           launcher. The effects below are it running on a real board.
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="https://dl.rizldizl.com/RizlDizl.dmg">Download for macOS</a>
+          <a class="btn btn-primary" href="/download">Download for macOS</a>
           <a class="btn btn-ghost" href="#gallery">See it running</a>
+          <span class="dl-count" id="dl-count" hidden></span>
         </div>
         <p class="hero-fine">Free · macOS 13 and up · Apple Silicon &amp; Intel</p>
         <ul class="hero-meta">
@@ -477,6 +478,19 @@
         function () { if (supportDialog) supportDialog.close(); }
       );
     })();
+
+    // Live download total from the Worker's cached Analytics Engine query.
+    // Stays hidden until there's a real number to show.
+    fetch("/api/downloads").then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.downloads > 0) {
+        var el = document.getElementById("dl-count");
+        var n = document.createElement("strong");
+        n.textContent = d.downloads.toLocaleString();
+        el.appendChild(n);
+        el.appendChild(document.createTextNode(" downloads and counting"));
+        el.hidden = false;
+      }
+    }).catch(function () {});
   </script>
 </body>
 </html>

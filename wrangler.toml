@@ -6,6 +6,12 @@ compatibility_date = "2026-05-30"
 directory = "public"
 binding = "ASSETS"
 
+# Privacy-preserving download count: the /download redirect records one event
+# here, then 302s to the R2-hosted DMG. No cookies, no client JS, no PII.
+[[analytics_engine_datasets]]
+binding = "METRICS"
+dataset = "rizldizl_web"
+
 [vars]
 BREVO_SENDER_EMAIL = "no-reply@rizldizl.com"
 BREVO_SENDER_NAME = "RizlDizl"
