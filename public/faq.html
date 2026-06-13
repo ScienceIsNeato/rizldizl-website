@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — RizlDizl: per-key RGB for Razer keyboards on macOS</title>
+  <meta name="description" content="Answers about RizlDizl — supported Razer keyboards, the Accessibility and Input Monitoring permissions, pricing, and whether you need Razer Synapse on macOS." />
+  <meta name="keywords" content="RizlDizl FAQ, Razer keyboard macOS, Razer Synapse Mac alternative, Ornata Chroma V2, per-key RGB permissions" />
+  <meta name="author" content="William Martin" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#0e0f13" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FAQ — RizlDizl: per-key RGB for Razer keyboards on macOS" />
+  <meta property="og:description" content="Answers about RizlDizl — supported Razer keyboards, permissions, pricing, and whether you need Razer Synapse on macOS." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.rizldizl.com/faq" />
+  <meta property="og:site_name" content="RizlDizl" />
+  <meta property="og:image" content="https://www.rizldizl.com/og.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FAQ — RizlDizl" />
+  <meta name="twitter:description" content="Answers about RizlDizl — per-key RGB for Razer keyboards on macOS." />
+  <meta name="twitter:image" content="https://www.rizldizl.com/og.png" />
+
+  <link rel="canonical" href="https://www.rizldizl.com/faq" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is RizlDizl?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RizlDizl is a small macOS menu bar app that drives per-key RGB on Razer keyboards natively, lighting your keys as you type with reactive effects like Ripple and Centipede. There’s no Razer Synapse, no cloud, and no account. It runs on macOS 13 and up, on both Apple Silicon and Intel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which Razer keyboards does RizlDizl work with?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It’s fully verified on the Razer Ornata Chroma V2. Other Ornata-family boards speak the same protocol and should work: Ornata Chroma, Ornata, Cynosa V2, Huntsman V2, and BlackWidow V3. Backgrounds are free, so there’s no risk in trying yours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need Razer Synapse to use RizlDizl?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. RizlDizl talks directly to the keyboard on your desk — no Razer Synapse, no cloud, no account, and no launcher. It’s a native macOS alternative for driving Razer per-key RGB."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does RizlDizl ask for Accessibility and Input Monitoring permission?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To light a key the instant you press it, macOS requires Accessibility and Input Monitoring. The keystroke drives a single frame of animation and is then thrown away — nothing is logged, saved, or sent anywhere, because there’s no server. The keystroke-handling code is open source so you can audit it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is RizlDizl free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The app and all backgrounds are free. The reactive effects — Ripple, Centipede, Alpha Stick, and Alpha Splat — are $9.99/year, and every effect previews for 30 seconds in the app before you pay. It runs on macOS 13 and up, on both Apple Silicon and Intel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does RizlDizl work on Windows?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. RizlDizl is a native macOS app for macOS 13 and later; it does not run on Windows."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="contact.js" defer></script>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      RizlDizl
+    </a>
+    <nav class="nav-links">
+      <a href="/#gallery">Effects</a>
+      <a href="/#menubar">Menu bar</a>
+      <a href="/#keyboards">Keyboards</a>
+      <a href="/#permissions">Privacy</a>
+      <a href="/#requests">Requests</a>
+      <a href="/#pricing">Pricing</a>
+      <a class="btn btn-primary" href="/download">Download</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section id="faq" class="faq">
+      <div class="section-head">
+        <h1>Frequently asked questions</h1>
+        <p>Everything about running RizlDizl on macOS. Still stuck? <a href="/">Head back home</a> or contact support below.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>What is RizlDizl?</h3>
+          <p>
+            RizlDizl is a small macOS menu bar app that drives per-key RGB on Razer keyboards
+            natively, lighting your keys as you type with reactive effects like Ripple and
+            Centipede. There&rsquo;s no Razer Synapse, no cloud, and no account. It runs on
+            macOS 13 and up, on both Apple Silicon and Intel.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Which Razer keyboards does RizlDizl work with?</h3>
+          <p>
+            It&rsquo;s fully verified on the Razer Ornata Chroma V2. Other Ornata-family boards
+            speak the same protocol and should work: Ornata Chroma, Ornata, Cynosa V2, Huntsman V2,
+            and BlackWidow V3. Backgrounds are free, so there&rsquo;s no risk in trying yours.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Do I need Razer Synapse to use RizlDizl?</h3>
+          <p>
+            No. RizlDizl talks directly to the keyboard on your desk &mdash; no Razer Synapse, no
+            cloud, no account, and no launcher. It&rsquo;s a native macOS alternative for driving
+            Razer per-key RGB.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Why does RizlDizl ask for Accessibility and Input Monitoring permission?</h3>
+          <p>
+            To light a key the instant you press it, macOS requires Accessibility and Input
+            Monitoring. The keystroke drives a single frame of animation and is then thrown away
+            &mdash; nothing is logged, saved, or sent anywhere, because there&rsquo;s no server. The
+            keystroke-handling code is open source so you can audit it.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Is RizlDizl free?</h3>
+          <p>
+            The app and all backgrounds are free. The reactive effects &mdash; Ripple, Centipede,
+            Alpha Stick, and Alpha Splat &mdash; are <code>$9.99/year</code>, and every effect
+            previews for 30 seconds in the app before you pay. It runs on macOS 13 and up, on both
+            Apple Silicon and Intel.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Does RizlDizl work on Windows?</h3>
+          <p>
+            No. RizlDizl is a native macOS app for macOS 13 and later; it does not run on Windows.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span class="brand"><span class="brand-dot"></span> RizlDizl</span>
+    <p>A reverse-engineered, copyright-free RGB driver for Razer keyboards on macOS. Built by one person who wanted control of their own lights.</p>
+    <button type="button" class="foot-link" id="supportTrigger">Contact support</button>
+  </footer>
+
+  <dialog class="modal" id="supportDialog">
+    <form class="contact" id="supportForm" method="dialog">
+      <button type="button" class="modal-close" id="supportClose" aria-label="Close">×</button>
+      <h2>Contact support</h2>
+      <p class="contact-fine">Question, bug, or licensing — drop me a line and I'll get back to you.</p>
+      <label>
+        <span>Your email</span>
+        <input type="email" name="email" required placeholder="you@example.com" />
+      </label>
+      <label>
+        <span>What's up?</span>
+        <textarea name="message" rows="5" required placeholder="Tell me what's going on…"></textarea>
+      </label>
+      <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="sentDialog">
+    <div class="sent-body">
+      <div class="sent-check">✓</div>
+      <h2>Message sent</h2>
+      <p class="contact-fine">Thanks — it landed in my inbox. I'll reply to the email you gave.</p>
+      <button class="btn btn-primary" type="button" id="sentClose">Nice</button>
+    </div>
+  </dialog>
+</body>
+</html>

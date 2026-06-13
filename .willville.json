@@ -1,7 +1,7 @@
 {
   "agent": {
-    "status": "Rewrote the homepage headline to lead with what the app actually is instead of the backstory",
-    "direction": "Ship it live, then get the contact form's email key set up so those buttons work",
+    "status": "Moved the FAQ onto its own page so the homepage stays focused, and shared the contact form code between both pages",
+    "direction": "Get the SEO/FAQ work reviewed and merged",
     "last_update": "2026-06-02T00:00:00Z"
   }
 }
