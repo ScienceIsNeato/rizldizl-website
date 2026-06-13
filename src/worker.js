@@ -12,6 +12,68 @@
 
 const MAX_FIELD = 5000;
 
+// The R2-hosted installer the /download redirect points at, and the Cloudflare
+// account whose Analytics Engine holds the count.
+const DMG_URL = "https://dl.rizldizl.com/RizlDizl.dmg";
+const ACCOUNT_ID = "4c2341810414766ae8cbf672785e82c5";
+
+// Count one download (server-side, no cookies / no PII beyond a coarse
+// country), then redirect to the actual file on R2. The R2 domain serves the
+// bytes directly, so routing the click through here is how we get a count.
+// Crawlers / link-preview bots that follow the download link shouldn't inflate
+// the count. We still redirect them to the file — we just don't tally them.
+const BOT_UA = /bot|crawl|spider|slurp|preview|fetch|monitor|headless|facebookexternalhit|embedly/i;
+
+function handleDownload(request, env) {
+  const ua = request.headers.get("user-agent") || "";
+  if (env.METRICS && !BOT_UA.test(ua)) {
+    env.METRICS.writeDataPoint({
+      blobs: ["download", request.headers.get("cf-ipcountry") || "??"],
+      indexes: ["download"],
+    });
+  }
+  // Explicit 302 with no-store: a cached redirect would let repeat clicks
+  // bypass the Worker and undercount downloads.
+  return new Response(null, {
+    status: 302,
+    headers: { Location: DMG_URL, "cache-control": "no-store" },
+  });
+}
+
+// Cached (5 min) all-time download total from Analytics Engine, for the page.
+async function handleDownloadCount(env, ctx, url) {
+  const cache = caches.default;
+  const key = new Request(url.origin + "/api/downloads?v=1");
+  const hit = await cache.match(key);
+  if (hit) return hit;
+
+  let downloads = 0;
+  let ok = false;
+  if (env.CF_ANALYTICS_TOKEN) {
+    try {
+      const sql = "SELECT sum(_sample_interval) AS n FROM rizldizl_web WHERE blob1='download'";
+      const resp = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/analytics_engine/sql`,
+        { method: "POST", headers: { Authorization: `Bearer ${env.CF_ANALYTICS_TOKEN}` }, body: sql }
+      );
+      if (resp.ok) {
+        const j = await resp.json();
+        downloads = Math.round(Number(j?.data?.[0]?.n ?? 0));
+        ok = true;
+      }
+    } catch { /* leave ok=false so a transient failure isn't cached as zero */ }
+  }
+
+  const out = new Response(JSON.stringify({ downloads }), {
+    headers: {
+      "content-type": "application/json",
+      "cache-control": ok ? "public, max-age=300" : "no-store",
+    },
+  });
+  if (ok) ctx.waitUntil(cache.put(key, out.clone()));
+  return out;
+}
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -137,7 +199,7 @@ async function handleContact(request, env) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/contact") {
@@ -145,6 +207,19 @@ export default {
         return json({ ok: false, error: "Method not allowed." }, 405);
       }
       return handleContact(request, env);
+    }
+
+    if (url.pathname === "/download") {
+      // Count only real download navigations; HEAD/link-checker probes shouldn't
+      // inflate the total.
+      if (request.method !== "GET") {
+        return new Response("Method not allowed", { status: 405, headers: { Allow: "GET" } });
+      }
+      return handleDownload(request, env);
+    }
+
+    if (url.pathname === "/api/downloads") {
+      return handleDownloadCount(env, ctx, url);
     }
 
     // Everything else is the static site.

@@ -42,11 +42,13 @@
     "offers": { "@type": "Offer", "price": "9.99", "priceCurrency": "USD" }
   }
   </script>
+  <!-- FAQPage structured data lives on /faq (where the FAQ content now is). -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="contact.js" defer></script>
 </head>
 <body>
   <div class="aurora" aria-hidden="true"></div>
@@ -63,7 +65,8 @@
       <a href="#permissions">Privacy</a>
       <a href="#requests">Requests</a>
       <a href="#pricing">Pricing</a>
-      <a class="btn btn-primary" href="https://dl.rizldizl.com/RizlDizl.dmg">Download</a>
+      <a href="/faq">FAQ</a>
+      <a class="btn btn-primary" href="/download">Download</a>
     </nav>
   </header>
 
@@ -78,8 +81,9 @@
           launcher. The effects below are it running on a real board.
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="https://dl.rizldizl.com/RizlDizl.dmg">Download for macOS</a>
+          <a class="btn btn-primary" href="/download">Download for macOS</a>
           <a class="btn btn-ghost" href="#gallery">See it running</a>
+          <span class="dl-count" id="dl-count" hidden></span>
         </div>
         <p class="hero-fine">Free · macOS 13 and up · Apple Silicon &amp; Intel</p>
         <ul class="hero-meta">
@@ -298,6 +302,7 @@
         <p class="price-fine">Try before you pay — every effect previews for 30 seconds in the app.</p>
       </div>
     </section>
+
   </main>
 
   <footer class="foot">
@@ -385,98 +390,20 @@
       show(0);
     })();
 
-    // Contact + effect-request forms post to the Worker, which relays to Brevo.
-    // Success pops a confirmation dialog; failure shows an alert.
-    (function () {
-      var sentDialog = document.getElementById("sentDialog");
-      var sentClose = document.getElementById("sentClose");
-      if (sentClose && sentDialog) {
-        sentClose.addEventListener("click", function () { sentDialog.close(); });
-      }
+    // Contact + effect-request handling now lives in contact.js (shared with faq.html).
 
-      function showSent() {
-        if (sentDialog && typeof sentDialog.showModal === "function") {
-          sentDialog.showModal();
-        } else {
-          alert("Message sent — thanks! I'll reply to the email you gave.");
-        }
+    // Live download total from the Worker's cached Analytics Engine query.
+    // Stays hidden until there's a real number to show.
+    fetch("/api/downloads").then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.downloads > 0) {
+        var el = document.getElementById("dl-count");
+        var n = document.createElement("strong");
+        n.textContent = d.downloads.toLocaleString();
+        el.appendChild(n);
+        el.appendChild(document.createTextNode(" downloads and counting"));
+        el.hidden = false;
       }
-
-      async function send(payload) {
-        var res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        var data = {};
-        try { data = await res.json(); } catch (e) {}
-        if (!res.ok || !data.ok) {
-          throw new Error((data && data.error) || "Couldn't send your message. Please try again.");
-        }
-      }
-
-      function wire(form, buildPayload, onSuccess) {
-        if (!form) return;
-        form.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          var btn = form.querySelector('button[type="submit"]');
-          var original = btn ? btn.textContent : "";
-          if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
-          try {
-            await send(buildPayload(form));
-            form.reset();
-            if (onSuccess) onSuccess();
-            showSent();
-          } catch (err) {
-            alert(err.message || "Couldn't send your message. Please try again.");
-          } finally {
-            if (btn) { btn.disabled = false; btn.textContent = original; }
-          }
-        });
-      }
-
-      // Effect-request form (field is "description" → API expects "message").
-      wire(document.getElementById("contactForm"), function (form) {
-        return {
-          type: "effect-request",
-          email: (form.email.value || "").trim(),
-          effect: (form.effect.value || "").trim(),
-          message: (form.description.value || "").trim(),
-          company: (form.company.value || "").trim(),
-        };
-      });
-
-      // Footer "Contact support" → modal form.
-      var supportDialog = document.getElementById("supportDialog");
-      var supportTrigger = document.getElementById("supportTrigger");
-      var supportClose = document.getElementById("supportClose");
-      if (supportTrigger && supportDialog) {
-        supportTrigger.addEventListener("click", function () {
-          if (typeof supportDialog.showModal === "function") supportDialog.showModal();
-        });
-      }
-      if (supportClose && supportDialog) {
-        supportClose.addEventListener("click", function () { supportDialog.close(); });
-      }
-      if (supportDialog) {
-        // Click outside the form (on the backdrop) closes it.
-        supportDialog.addEventListener("click", function (e) {
-          if (e.target === supportDialog) supportDialog.close();
-        });
-      }
-      wire(
-        document.getElementById("supportForm"),
-        function (form) {
-          return {
-            type: "support",
-            email: (form.email.value || "").trim(),
-            message: (form.message.value || "").trim(),
-            company: (form.company.value || "").trim(),
-          };
-        },
-        function () { if (supportDialog) supportDialog.close(); }
-      );
-    })();
+    }).catch(function () {});
   </script>
 </body>
 </html>
