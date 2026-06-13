@@ -20,8 +20,13 @@ const ACCOUNT_ID = "4c2341810414766ae8cbf672785e82c5";
 // Count one download (server-side, no cookies / no PII beyond a coarse
 // country), then redirect to the actual file on R2. The R2 domain serves the
 // bytes directly, so routing the click through here is how we get a count.
+// Crawlers / link-preview bots that follow the download link shouldn't inflate
+// the count. We still redirect them to the file — we just don't tally them.
+const BOT_UA = /bot|crawl|spider|slurp|preview|fetch|monitor|headless|facebookexternalhit|embedly/i;
+
 function handleDownload(request, env) {
-  if (env.METRICS) {
+  const ua = request.headers.get("user-agent") || "";
+  if (env.METRICS && !BOT_UA.test(ua)) {
     env.METRICS.writeDataPoint({
       blobs: ["download", request.headers.get("cf-ipcountry") || "??"],
       indexes: ["download"],

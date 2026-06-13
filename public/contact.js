@@ -24,8 +24,8 @@
   }
 
   function showSent() {
-    if (sentDialog && typeof sentDialog.showModal === "function") {
-      sentDialog.showModal();
+    if (sentDialog) {
+      openDialog(sentDialog);
     } else {
       alert("Message sent — thanks! I'll reply to the email you gave.");
     }
