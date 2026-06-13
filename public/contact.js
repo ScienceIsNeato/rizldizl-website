@@ -3,10 +3,24 @@
 // (support modal only). Every lookup is guarded, so each page only wires the
 // elements it actually has. Loaded with `defer`, so the DOM is ready here.
 (function () {
+  // Open/close helpers that degrade gracefully on browsers with partial or no
+  // <dialog> support — keeps open and close symmetric (close() was unguarded).
+  function openDialog(dialog) {
+    if (!dialog) return;
+    if (typeof dialog.showModal === "function") return dialog.showModal();
+    if (typeof dialog.show === "function") return dialog.show();
+    dialog.setAttribute("open", "");
+  }
+  function closeDialog(dialog) {
+    if (!dialog) return;
+    if (typeof dialog.close === "function") { if (dialog.open) dialog.close(); return; }
+    dialog.removeAttribute("open");
+  }
+
   var sentDialog = document.getElementById("sentDialog");
   var sentClose = document.getElementById("sentClose");
   if (sentClose && sentDialog) {
-    sentClose.addEventListener("click", function () { sentDialog.close(); });
+    sentClose.addEventListener("click", function () { closeDialog(sentDialog); });
   }
 
   function showSent() {
@@ -67,16 +81,16 @@
   var supportClose = document.getElementById("supportClose");
   if (supportTrigger && supportDialog) {
     supportTrigger.addEventListener("click", function () {
-      if (typeof supportDialog.showModal === "function") supportDialog.showModal();
+      openDialog(supportDialog);
     });
   }
   if (supportClose && supportDialog) {
-    supportClose.addEventListener("click", function () { supportDialog.close(); });
+    supportClose.addEventListener("click", function () { closeDialog(supportDialog); });
   }
   if (supportDialog) {
     // Click outside the form (on the backdrop) closes it.
     supportDialog.addEventListener("click", function (e) {
-      if (e.target === supportDialog) supportDialog.close();
+      if (e.target === supportDialog) closeDialog(supportDialog);
     });
   }
   wire(
@@ -89,6 +103,6 @@
         company: (form.company.value || "").trim(),
       };
     },
-    function () { if (supportDialog) supportDialog.close(); }
+    function () { closeDialog(supportDialog); }
   );
 })();
